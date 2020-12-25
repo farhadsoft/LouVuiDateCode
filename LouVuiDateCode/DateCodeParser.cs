@@ -77,7 +77,6 @@ namespace LouVuiDateCode
             factoryLocationCode = dateCode[..2];
             factoryLocationCountry = CountryParser.GetCountry(factoryLocationCode);
 
-            uint temp = 0;
             StringBuilder month = new StringBuilder();
             StringBuilder year = new StringBuilder();
             month.Append(dateCode[2]);
@@ -85,9 +84,8 @@ namespace LouVuiDateCode
             year.Append(dateCode[3]);
             year.Append(dateCode[5]);
             manufacturingMonth = uint.Parse(month.ToString(), CultureInfo.CurrentCulture);
-            temp = uint.Parse(year.ToString(), CultureInfo.CurrentCulture);
-            temp += (temp >= 90) ? 1900 : 2000;
-            manufacturingYear = temp;
+            manufacturingYear = uint.Parse(year.ToString(), CultureInfo.CurrentCulture);
+            manufacturingYear += (manufacturingYear >= 90) ? 1900 : 2000;
         }
 
         /// <summary>
