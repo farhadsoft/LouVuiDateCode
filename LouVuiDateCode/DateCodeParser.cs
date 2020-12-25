@@ -79,13 +79,14 @@ namespace LouVuiDateCode
 
             StringBuilder month = new StringBuilder();
             StringBuilder year = new StringBuilder();
+            uint year19 = 1900, year20 = 2000;
             month.Append(dateCode[2]);
             month.Append(dateCode[4]);
             year.Append(dateCode[3]);
             year.Append(dateCode[5]);
             manufacturingMonth = uint.Parse(month.ToString(), CultureInfo.CurrentCulture);
             manufacturingYear = uint.Parse(year.ToString(), CultureInfo.CurrentCulture);
-            manufacturingYear += (manufacturingYear >= 90) ? 1900 : 2000;
+            manufacturingYear += (manufacturingYear >= 90) ? year19 : year20;
         }
 
         /// <summary>
