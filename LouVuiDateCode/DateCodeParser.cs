@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Globalization;
+using System.Text;
 
 namespace LouVuiDateCode
 {
@@ -12,8 +14,18 @@ namespace LouVuiDateCode
         /// <param name="manufacturingMonth">A manufacturing month to return.</param>
         public static void ParseEarly1980Code(string dateCode, out uint manufacturingYear, out uint manufacturingMonth)
         {
-            // TODO #6. Analyze unit tests for the method, and add the method implementation.
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(dateCode))
+            {
+                throw new ArgumentNullException(nameof(dateCode));
+            }
+
+            if (dateCode.Length < 3 || dateCode.Length > 4)
+            {
+                throw new ArgumentException("Argument is not correct!");
+            }
+
+            manufacturingMonth = uint.Parse(dateCode[2..], CultureInfo.CurrentCulture);
+            manufacturingYear = uint.Parse(dateCode[..2], CultureInfo.CurrentCulture) + 1900;
         }
 
         /// <summary>
@@ -26,9 +38,20 @@ namespace LouVuiDateCode
         /// <param name="manufacturingMonth">A manufacturing month to return.</param>
         public static void ParseLate1980Code(string dateCode, out Country[] factoryLocationCountry, out string factoryLocationCode, out uint manufacturingYear, out uint manufacturingMonth)
         {
-            // TODO #7. Analyze unit tests for the method, and add the method implementation.
-            // Use CountryParser.GetCountry method to get a list of countries by a factory code.
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(dateCode))
+            {
+                throw new ArgumentNullException(nameof(dateCode));
+            }
+
+            if (dateCode.Length < 5 || dateCode.Length > 6)
+            {
+                throw new ArgumentException("Argument is not correct");
+            }
+
+            factoryLocationCode = dateCode[^2..];
+            factoryLocationCountry = CountryParser.GetCountry(factoryLocationCode);
+            manufacturingMonth = uint.Parse(dateCode[2..^2], CultureInfo.CurrentCulture);
+            manufacturingYear = uint.Parse(dateCode[..2], CultureInfo.CurrentCulture) + 1900;
         }
 
         /// <summary>
@@ -41,9 +64,28 @@ namespace LouVuiDateCode
         /// <param name="manufacturingMonth">A manufacturing month to return.</param>
         public static void Parse1990Code(string dateCode, out Country[] factoryLocationCountry, out string factoryLocationCode, out uint manufacturingYear, out uint manufacturingMonth)
         {
-            // TODO #8. Analyze unit tests for the method, and add the method implementation.
-            // Use CountryParser.GetCountry method to get a list of countries by a factory code.
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(dateCode))
+            {
+                throw new ArgumentNullException(nameof(dateCode));
+            }
+
+            if (dateCode.Length != 6)
+            {
+                throw new ArgumentException("Argument is not correct");
+            }
+
+            factoryLocationCode = dateCode[..2];
+            factoryLocationCountry = CountryParser.GetCountry(factoryLocationCode);
+
+            StringBuilder month = new StringBuilder();
+            StringBuilder year = new StringBuilder();
+            month.Append(dateCode[2]);
+            month.Append(dateCode[4]);
+            year.Append(dateCode[3]);
+            year.Append(dateCode[5]);
+            manufacturingMonth = uint.Parse(month.ToString(), CultureInfo.CurrentCulture);
+            manufacturingYear = uint.Parse(year.ToString(), CultureInfo.CurrentCulture);
+            manufacturingYear += (manufacturingYear >= 90) ? 1900 : 2000;
         }
 
         /// <summary>
@@ -56,9 +98,28 @@ namespace LouVuiDateCode
         /// <param name="manufacturingWeek">A manufacturing month to return.</param>
         public static void Parse2007Code(string dateCode, out Country[] factoryLocationCountry, out string factoryLocationCode, out uint manufacturingYear, out uint manufacturingWeek)
         {
-            // TODO #9. Analyze unit tests for the method, and add the method implementation.
-            // Use CountryParser.GetCountry method to get a list of countries by a factory code.
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(dateCode))
+            {
+                throw new ArgumentNullException(nameof(dateCode));
+            }
+
+            if (dateCode.Length != 6)
+            {
+                throw new ArgumentException("Argument is not correct");
+            }
+
+            factoryLocationCode = dateCode[..2];
+            factoryLocationCountry = CountryParser.GetCountry(factoryLocationCode);
+
+            StringBuilder week = new StringBuilder();
+            StringBuilder year = new StringBuilder();
+            week.Append(dateCode[2]);
+            week.Append(dateCode[4]);
+            year.Append(dateCode[3]);
+            year.Append(dateCode[5]);
+            manufacturingWeek = uint.Parse(week.ToString(), CultureInfo.CurrentCulture);
+            manufacturingYear = uint.Parse(year.ToString(), CultureInfo.CurrentCulture);
+            manufacturingYear += (manufacturingYear >= 90) ? 1900 : 2000;
         }
     }
 }
