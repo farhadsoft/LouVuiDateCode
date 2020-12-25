@@ -24,8 +24,9 @@ namespace LouVuiDateCode
                 throw new ArgumentException("Argument is not correct!");
             }
 
+            uint year19 = 1900;
             manufacturingMonth = uint.Parse(dateCode[2..], CultureInfo.CurrentCulture);
-            manufacturingYear = uint.Parse(dateCode[..2], CultureInfo.CurrentCulture) + 1900;
+            manufacturingYear = uint.Parse(dateCode[..2], CultureInfo.CurrentCulture) + year19;
         }
 
         /// <summary>
@@ -48,10 +49,11 @@ namespace LouVuiDateCode
                 throw new ArgumentException("Argument is not correct");
             }
 
+            uint year19 = 1900;
             factoryLocationCode = dateCode[^2..];
             factoryLocationCountry = CountryParser.GetCountry(factoryLocationCode);
             manufacturingMonth = uint.Parse(dateCode[2..^2], CultureInfo.CurrentCulture);
-            manufacturingYear = uint.Parse(dateCode[..2], CultureInfo.CurrentCulture) + 1900;
+            manufacturingYear = uint.Parse(dateCode[..2], CultureInfo.CurrentCulture) + year19;
         }
 
         /// <summary>
@@ -114,13 +116,14 @@ namespace LouVuiDateCode
 
             StringBuilder week = new StringBuilder();
             StringBuilder year = new StringBuilder();
+            uint year19 = 1900, year20 = 2000;
             week.Append(dateCode[2]);
             week.Append(dateCode[4]);
             year.Append(dateCode[3]);
             year.Append(dateCode[5]);
             manufacturingWeek = uint.Parse(week.ToString(), CultureInfo.CurrentCulture);
             manufacturingYear = uint.Parse(year.ToString(), CultureInfo.CurrentCulture);
-            manufacturingYear += (manufacturingYear >= 90) ? 1900 : 2000;
+            manufacturingYear += (manufacturingYear >= 90) ? year19 : year20;
         }
     }
 }
